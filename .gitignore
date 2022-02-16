@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+*.pyo
+/*.egg-info
+*.srctrlbm
+*.srctrldb
+build
+dist
+.eggs
+monkeytype.sqlite3
+/.ipynb_checkpoints
+
+.ninja_log
+.ninja_deps
+/tests/lan_proto_test

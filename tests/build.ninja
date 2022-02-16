@@ -1,0 +1,16 @@
+#!/usr/bin/env -S ninja -f 
+
+cpp = clang++
+
+rule cpp
+  command = $cpp -std=gnu++2b -O3 -MT $out -MF $out.d -o $out $in && strip -s $out
+  description = Compile $out
+  depfile = $out.d
+  deps = gcc
+
+rule gen_test_data
+  command = ./lan_proto_test
+  description = Generating test files
+
+build ./lan_proto_test: cpp ./lan_proto_test.cpp
+build testData: gen_test_data ./lan_proto_test

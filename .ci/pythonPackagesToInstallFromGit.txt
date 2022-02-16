@@ -1,0 +1,4 @@
+https://github.com/KOLANICH-physics/motorAccelerationPlanner.py.git
+https://github.com/KOLANICH-libs/SaneIO.py.git
+https://github.com/pyserial/pyserial-asyncio.git
+https://github.com/kaitai-io/kaitai_struct_python_runtime.git

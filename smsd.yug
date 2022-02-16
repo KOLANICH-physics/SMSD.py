@@ -1,0 +1,92 @@
+meta:
+  id: smsd
+  title: SMSD command
+  license: Unlicense
+  class: regular
+doc: A grammar for SMSD text serial commands
+tests:
+  - model: lines
+    files:
+      - "tests.txt"
+
+chars:
+  - id: digit
+    wellknown: digits
+  - id: plus
+    lit: +
+  - id: minus
+    lit: '-'
+  - id: sign
+    alt:
+      - ref: plus
+      - ref: minus
+keywords:
+  - id: optional_arg_verb
+    alt:
+      - lit: LD
+      - lit: MV
+      - lit: ST
+      - lit: PS
+  - id: no_arg_verb
+    alt:
+      - lit: BG
+      - lit: EN
+      - lit: DL
+      - lit: DR
+      - lit: RS
+      - lit: EN
+      - lit: DS
+      - lit: ON
+      - lit: OF
+      - lit: SF
+      - lit: WL
+      - lit: WH
+      - lit: CF
+      - lit: LL
+      - lit: ED
+  - id: unsigned_arg_verb
+    alt:
+      - lit: SD
+      - lit: SS
+      - lit: SP
+      - lit: JP
+  - id: signed_arg_verb
+    lit: AL
+tokens:
+  - id: unsigned_number
+    ref: digit
+    min: 1
+  - id: signed_number
+    seq:
+      - opt:
+          ref: sign
+      - ref: unsigned_number
+
+prods:
+  - id: command
+    alt:
+      - ref: opt_arg_command
+      - ref: unsigned_command
+      - ref: signed_command
+
+  - id: signed_command
+    seq:
+      - ref: signed_arg_verb
+        cap: verb
+      - ref: signed_number
+        cap: arg
+  - id: unsigned_command
+    seq:
+      - ref: unsigned_arg_verb
+        cap: verb
+      - ref: unsigned_number
+        cap: arg
+  - id: opt_arg
+    opt:
+      ref: unsigned_number
+  - id: opt_arg_command
+    seq:
+      - ref: optional_arg_verb
+        cap: verb
+      - ref: opt_arg
+        cap: arg

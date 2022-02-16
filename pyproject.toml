@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.2.0", "wheel", "setuptools_scm[toml]>=3.4.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SMSD"
+readme = "ReadMe.md"
+description = "A library implementing protocols for Smart Motor Devices SMSD controlling drivers for stepper motors."
+authors = [{name = "KOLANICH"}]
+license = {text = "Unlicense"}
+classifiers = [
+	"Development Status :: 4 - Beta",
+	"Environment :: Other Environment",
+	"Intended Audience :: Developers",
+	"License :: Public Domain",
+	"Operating System :: OS Independent",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3 :: Only",
+	"Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["SMSD"]
+urls = {Homepage = "https://github.com/KOLANICH-libs/SMSD.py"}
+requires-python = ">=3.4"
+dependencies = [
+	"motorAccelerationPlanner", # git+https://github.com/KOLANICH-physics/motorAccelerationPlanner.py.git
+	"SaneIO", # @ git+https://github.com/KOLANICH-libs/SaneIO.py.git
+]
+dynamic = ["version"]
+
+[project.scripts]
+SMSD = "SMSD.__main__:CLI.run"
+
+[project.optional-dependencies]
+uart = [
+	"serial_asyncio", # git+https://github.com/pyserial/pyserial-asyncio.git
+]
+lan = [
+	"kaitaistruct", # git+https://github.com/kaitai-io/kaitai_struct_python_runtime.git
+]
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.setuptools.packages.find]
+include = ["SMSD", "SMSD.*"]
+
+[tool.setuptools_scm]
+
+[tool.kaitai.repos."local"."smsd"]
+update = false
+localPath = "specs"
+outputDir = "SMSD/kaitai"
+
+[tool.kaitai.repos."local"."smsd".formats.smsd_lan]
+flags = { autoRead = false }
+postprocess = {fixEnums = []}
+path = "smsd_lan"
+
+[tool.kaitai.repos."local"."smsd".formats.smsd_modbus]
+postprocess = {fixEnums = []}
+path = "smsd_modbus"
